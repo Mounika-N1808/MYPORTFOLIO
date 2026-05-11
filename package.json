@@ -1,0 +1,13 @@
+{
+  "name": "mounika-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Portfolio website for Mounika Nimmanagonti.",
+  "scripts": {
+    "start": "python3 -m http.server 5500",
+    "format": "prettier --write \"**/*.{html,css,js,json,md}\""
+  },
+  "devDependencies": {
+    "prettier": "^3.5.3"
+  }
+}
