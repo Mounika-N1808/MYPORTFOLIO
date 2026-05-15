@@ -3,7 +3,7 @@ const profile = {
   skills: [
     {
       title: "Programming",
-      items: ["Python", "Java", "JavaScript", "SQL", "HTML", "CSS"],
+      items: ["Python", "Java", "JavaScript", "SQL", "HTML5", "CSS"],
     },
     {
       title: "Web Development",
@@ -11,7 +11,7 @@ const profile = {
     },
     {
       title: "Data & Databases",
-      items: ["SQL queries", "Data cleaning", "Excel", "Relational data"],
+      items: ["MySQL", "SQL queries", "Data cleaning", "Excel", "Power BI", "Relational data"],
     },
     {
       title: "Developer Tools",
@@ -23,18 +23,60 @@ const profile = {
     },
     {
       title: "Role Targets",
-      items: ["Data Analyst", "Database roles", "Technical Support", "Business Analyst"],
+      items: ["Data Analyst", "BI Analyst", "Database roles", "Technical Support", "Business Analyst"],
     },
   ],
 };
 
+const featuredProjectOrder = [
+  "website-visitor-dashboard",
+  "forecasting-self-harm-trends-from-online-platorms",
+  "house-price-prediction",
+  "covid-19-analysis",
+  "task-manager",
+  "weather-application",
+];
+
 const hiddenProjectNames = new Set([
+  "22311a1285",
   "basic-rest-api-with-crud-operations",
+  "basic-rest-api-with-crud-operations.",
+  "mounika-n1808",
   "mounika-nimmanagonti",
+  "myportfolio",
 ]);
 
 const skillsGrid = document.querySelector("#skillsGrid");
 const projectGrid = document.querySelector("#projectGrid");
+
+const projectDescriptions = {
+  "website-visitor-dashboard":
+    "Power BI dashboard for tracking website traffic, visitor count, page views, bounce rate, session duration, and conversion trends. Built to turn raw web metrics into clear business insights.",
+  "forecasting-self-harm-trends-from-online-platorms":
+    "Machine learning and NLP project that analyzes online platform signals, sentiment, and emotions to forecast self-harm trends using models such as Random Forest and XGBoost.",
+  "house-price-prediction":
+    "Python regression project for predicting house prices with preprocessing, exploratory analysis, model training, and evaluation using MAE, RMSE, and R-squared.",
+  "covid-19-analysis":
+    "Jupyter Notebook analysis project exploring COVID-19 data with Python, data cleaning, visual summaries, and trend-based insights.",
+  "task-manager":
+    "Responsive task management web app with a deployed live demo, focused on clean UI, task organization, and front-end implementation.",
+  "weather-application":
+    "Weather application project using web technologies to practice API-style UI flows, responsive layout, and front-end data display.",
+};
+
+const projectTitles = {
+  "website-visitor-dashboard": "Website Visitor Dashboard",
+  "forecasting-self-harm-trends-from-online-platorms":
+    "Forecasting Self-Harm Trends from Online Platforms",
+  "house-price-prediction": "House Price Prediction",
+  "covid-19-analysis": "COVID-19 Analysis",
+  "task-manager": "Task Manager",
+  "weather-application": "Weather Application",
+};
+
+function normalizeName(name) {
+  return name.toLowerCase().replaceAll("_", "-");
+}
 
 function renderSkills() {
   skillsGrid.innerHTML = profile.skills
@@ -59,14 +101,32 @@ function formatDate(value) {
 }
 
 function repoDescription(repo) {
+  const normalizedName = normalizeName(repo.name);
+  if (projectDescriptions[normalizedName]) return projectDescriptions[normalizedName];
   if (repo.description) return repo.description;
   return "A public GitHub project by Mounika. Open the repository to review the code, structure, and implementation details.";
 }
 
+function repoTitle(repo) {
+  const normalizedName = normalizeName(repo.name);
+  if (projectTitles[normalizedName]) return projectTitles[normalizedName];
+
+  return repo.name.replaceAll("-", " ").replaceAll("_", " ");
+}
+
 function renderProjects(repos) {
   const usefulRepos = repos
-    .filter((repo) => !repo.fork && !hiddenProjectNames.has(repo.name.toLowerCase()))
-    .sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at))
+    .filter((repo) => !repo.fork && !hiddenProjectNames.has(normalizeName(repo.name)))
+    .sort((a, b) => {
+      const firstIndex = featuredProjectOrder.indexOf(normalizeName(a.name));
+      const secondIndex = featuredProjectOrder.indexOf(normalizeName(b.name));
+
+      if (firstIndex !== -1 || secondIndex !== -1) {
+        return (firstIndex === -1 ? 99 : firstIndex) - (secondIndex === -1 ? 99 : secondIndex);
+      }
+
+      return new Date(b.pushed_at) - new Date(a.pushed_at);
+    })
     .slice(0, 6);
 
   if (!usefulRepos.length) {
@@ -83,7 +143,7 @@ function renderProjects(repos) {
     .map(
       (repo) => `
         <article class="project-card">
-          <h3>${repo.name.replaceAll("-", " ")}</h3>
+          <h3>${repoTitle(repo)}</h3>
           <p>${repoDescription(repo)}</p>
           <div class="project-meta">
             ${repo.language ? `<span class="repo-language">${repo.language}</span>` : ""}

@@ -6,7 +6,7 @@ This is a responsive tech-role portfolio built with plain HTML, CSS, and JavaScr
 
 1. Open Visual Studio Code.
 2. Choose **File > Open Folder**.
-3. Select `/Users/nimmanagonti05/Desktop/MYPORTFOLIO`.
+3. Select `/Users/nimmanagonti05/Desktop/Task Nest/MYPORTFOLIO`.
 4. Open `index.html`.
 
 You can preview it by opening `index.html` in a browser. If you use the VS Code Live Server extension, right-click `index.html` and choose **Open with Live Server**.
@@ -54,10 +54,10 @@ Open Portfolio with Python Server
 
 - Edit skills and role targets in `script.js`.
 - Edit the main introduction and contact text in `index.html`.
-- Add public GitHub projects to `https://github.com/Mounika-N1808`; the project cards load automatically from the GitHub API.
+- Add clear descriptions and live demo links to public GitHub projects at `https://github.com/Mounika-N1808`; the project cards load automatically from the GitHub API.
 
 ## Links Used
 
 - GitHub: https://github.com/Mounika-N1808
 - LinkedIn: https://www.linkedin.com/in/mounika-nimmanagonti-7b7595315/
-- Resume: /Users/nimmanagonti05/Downloads/MOUNIKA_N.pdf
+- Resume: ./MOUNIKA_N.pdf
